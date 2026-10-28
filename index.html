@@ -426,10 +426,21 @@
 
     .business-card__cover {
       position: relative;
-      height: 105px;
+      height: 145px;
       display: flex;
       align-items: center;
       justify-content: center;
+      background-position: center;
+      background-size: cover;
+      isolation: isolate;
+    }
+
+    .business-card__cover::before {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(180deg, rgba(25, 47, 32, 0.04), rgba(25, 47, 32, 0.32));
+      content: "";
     }
 
     .business-logo {
@@ -438,13 +449,37 @@
       display: grid;
       place-items: center;
       overflow: hidden;
-      border: 1px solid #FFFFFFE8;
-      border-radius: 19px;
-      background: #FFFFFFD9;
-      box-shadow: 0 3px 12px rgba(38, 57, 47, 0.04);
+      border: 3px solid rgba(255,255,255,.96);
+      border-radius: 20px;
+      background: linear-gradient(145deg, #FFFFFF, #F0F4EA);
+      box-shadow: 0 7px 22px rgba(24, 45, 29, 0.18);
       color: #365941;
-      font-size: 36px;
-      font-weight: 850;
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: -1px;
+      text-transform: uppercase;
+    }
+
+    .business-logo__mark {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(145deg, var(--logo-light, #E7EEDF), var(--logo-dark, #CAD9C1));
+      color: var(--logo-ink, #31543A);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: -1px;
+    }
+
+    .business-card__cover .business-logo {
+      transform: translateY(12px);
+    }
+
+    .business-card__cover .category-chip {
+      bottom: 10px;
+      background: rgba(255,255,255,.94);
     }
 
     .business-logo img {
@@ -983,11 +1018,13 @@
        Para alterar uma empresa, edite os campos neste array.
        whatsapp deve conter código do país + DDD + número,
        somente dígitos (ex.: 5511999991001).
-       logoUrl pode receber uma URL ou caminho relativo de imagem.
+       imageUrl recebe a foto de capa do card; logoUrl pode receber
+       uma URL ou caminho relativo para o logo real da empresa.
        ========================================================= */
     const businesses = [
       {
         id: 1,
+        imageUrl: "https://images.unsplash.com/photo-1501339400332-2c1e3c5a8d0f?auto=format&fit=crop&w=900&q=85",
         name: "Café do Brasil",
         category: "Alimentação",
         city: "São Paulo",
@@ -999,13 +1036,14 @@
         instagram: "@cafedobrasil",
         tags: ["Empreendedorismo", "Liberdade econômica"],
         color: "#E5EDDD",
-        logo: "☕",
+        logo: "CB",
         logoUrl: "",
         verified: true,
         message: "Acreditamos na liberdade para empreender, na responsabilidade individual e na importância de fortalecer os negócios locais. Será um prazer receber você!"
       },
       {
         id: 2,
+        imageUrl: "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=900&q=85",
         name: "Raízes Boutique",
         category: "Moda",
         city: "São Paulo",
@@ -1017,13 +1055,14 @@
         instagram: "@raizesboutique",
         tags: ["Família", "Empreendedorismo"],
         color: "#F3E8C9",
-        logo: "✿",
+        logo: "RB",
         logoUrl: "",
         verified: true,
         message: "Uma empresa familiar construída com dedicação, respeito aos nossos clientes e orgulho de empreender no Brasil."
       },
       {
         id: 3,
+        imageUrl: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&fit=crop&w=900&q=85",
         name: "Oficina Independente",
         category: "Automotivo",
         city: "Campinas",
@@ -1035,13 +1074,14 @@
         instagram: "@oficinaindependente",
         tags: ["Livre iniciativa", "Responsabilidade"],
         color: "#DDE8F3",
-        logo: "⚙",
+        logo: "OI",
         logoUrl: "",
         verified: true,
         message: "Valorizamos o trabalho bem feito, a transparência e a liberdade de construir nosso próprio caminho."
       },
       {
         id: 4,
+        imageUrl: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=900&q=85",
         name: "Casa & Campo",
         category: "Casa e decoração",
         city: "São Paulo",
@@ -1053,13 +1093,14 @@
         instagram: "@casaecampo",
         tags: ["Família", "Tradição"],
         color: "#F1DFD4",
-        logo: "⌂",
+        logo: "CC",
         logoUrl: "",
         verified: false,
         message: "Acreditamos que cuidar da casa é também cuidar da família. Obrigado por apoiar o comércio do nosso bairro."
       },
       {
         id: 5,
+        imageUrl: "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=900&q=85",
         name: "Pão da Vila",
         category: "Padarias",
         city: "Santo André",
@@ -1071,13 +1112,14 @@
         instagram: "@paodavila",
         tags: ["Tradição", "Família"],
         color: "#F4E6C7",
-        logo: "❋",
+        logo: "PV",
         logoUrl: "",
         verified: true,
         message: "Há gerações, acreditamos no valor da família, do trabalho e das relações de confiança que fazem nosso bairro crescer."
       },
       {
         id: 6,
+        imageUrl: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=900&q=85",
         name: "Norte Consultoria",
         category: "Serviços",
         city: "São Paulo",
@@ -1089,7 +1131,7 @@
         instagram: "@norteconsultoria",
         tags: ["Livre iniciativa", "Responsabilidade"],
         color: "#DFE8E1",
-        logo: "N",
+        logo: "NC",
         logoUrl: "",
         verified: true,
         message: "Empreender é transformar ideias em oportunidades. Apoiamos quem trabalha, inova e assume a responsabilidade de construir o próprio futuro."
@@ -1158,7 +1200,15 @@
       if (business.logoUrl) {
         return `<div class="${className}"><img src="${escapeHtml(business.logoUrl)}" alt="Logo de ${escapeHtml(business.name)}"></div>`;
       }
-      return `<div class="${className}" role="img" aria-label="Logo ilustrativo de ${escapeHtml(business.name)}">${escapeHtml(business.logo || business.name.slice(0, 1))}</div>`;
+      const palette = {
+        1: ["#F1E5C8", "#D6B975", "#634C25"],
+        2: ["#F4E8D9", "#D8B9A1", "#754D3D"],
+        3: ["#E3EBF3", "#B5C9DC", "#2F506B"],
+        4: ["#E8EBDD", "#C6D3B5", "#3E5A3A"],
+        5: ["#F5E8C9", "#E2C57E", "#745723"],
+        6: ["#E1EBE3", "#B4D0BC", "#315A40"]
+      }[business.id] || ["#E7EEDF", "#CAD9C1", "#31543A"];
+      return `<div class="${className}" role="img" aria-label="Logo ilustrativo de ${escapeHtml(business.name)}"><span class="business-logo__mark" style="--logo-light:${palette[0]};--logo-dark:${palette[1]};--logo-ink:${palette[2]}">${escapeHtml(business.logo || business.name.slice(0, 1))}</span></div>`;
     }
 
     function renderWhatsAppButton(business) {
@@ -1217,7 +1267,7 @@
 
       return `
         <article class="business-card">
-          <div class="business-card__cover" style="background:${escapeHtml(business.color)}">
+          <div class="business-card__cover" style="background-color:${escapeHtml(business.color)};background-image:url('${escapeHtml(business.imageUrl || "")}')">
             ${renderLogo(business)}
             <span class="category-chip">${escapeHtml(business.category)}</span>
             <button class="favorite-button ${favorite ? "is-active" : ""}"
@@ -1291,7 +1341,10 @@
       if (!business) return;
 
       state.selectedBusinessId = business.id;
-      elements.modalBanner.style.background = business.color;
+      elements.modalBanner.style.backgroundColor = business.color;
+      elements.modalBanner.style.backgroundImage = business.imageUrl ? `linear-gradient(180deg, rgba(25,47,32,.02), rgba(25,47,32,.25)), url("${business.imageUrl}")` : "none";
+      elements.modalBanner.style.backgroundSize = "cover";
+      elements.modalBanner.style.backgroundPosition = "center";
       elements.modalLogo.outerHTML = renderLogo(business);
       elements.modalLogo = elements.modalBanner.querySelector(".business-logo");
 
